@@ -1,0 +1,20 @@
+{
+  "name": "civil-sentry",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Evidence-driven cyber situational-awareness platform: separates public observation from verified findings, models authorization boundaries, produces STIX-interoperable evidence.",
+  "packageManager": "pnpm@9.12.3+sha512.cce0f9de9c5a7c95bef944169cc5dfe8741abfb145078c0d508b868056848a87c81e626246cb60967cbd7fd29a6c062ef73ff840d96b3c86c40ac92cf4a813ee",
+  "scripts": {
+    "build": "pnpm -r run build",
+    "test": "pnpm -r run test",
+    "lint": "pnpm -r run type-check",
+    "demo:synthetic": "pnpm --filter @civil-sentry/demo-gelderland-synthetic run demo"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.2",
+    "@types/node": "^22.7.4"
+  },
+  "keywords": ["cyber-situational-awareness", "osint", "cti", "asm", "evidence", "authorization"],
+  "author": "Abraham Haddioui",
+  "license": "Apache-2.0"
+}
