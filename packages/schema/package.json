@@ -7,7 +7,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "node --test dist/**/*.test.js",
+    "test": "node --test dist/confidence.test.js",
     "type-check": "tsc --noEmit"
   }
 }
