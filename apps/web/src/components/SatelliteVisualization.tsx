@@ -263,6 +263,7 @@ export function SatelliteVisualization() {
         <AdvancedSatellite position={[2, -1.5, -4]} label="SAT-GAMMA" active={false} delay={1.2} />
         <AdvancedSatellite position={[-4, -2, -1]} label="SAT-DELTA" active={true} delay={4.1} />
 
+        {/* @ts-ignore */}
         <OrbitControls
           enableZoom={true}
           enablePan={false}

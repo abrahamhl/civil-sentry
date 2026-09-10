@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Satellite, Radio, Shield, Globe, Users, ArrowRight, Check, Activity, Cpu } from 'lucide-react';
+import { Shield, Globe, Users, ArrowRight, Check, Activity, Database, Lock, Fingerprint } from 'lucide-react';
 import { SatelliteVisualization } from './SatelliteVisualization';
 
 const features = [
