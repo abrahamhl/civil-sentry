@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { Shield, Globe, Users, ArrowRight, Check, Activity, Database, Lock, Fingerprint } from 'lucide-react';
-import { SatelliteVisualization } from './SatelliteVisualization';
 
 const features = [
   {
@@ -141,7 +140,38 @@ export function LandingPage({ onEnterApp }: { onEnterApp: () => void }) {
               </p>
             </div>
 
-            <SatelliteVisualization />
+            {/* Cyber Terminal Representation */}
+            <div className="bg-black border border-purple-500/30 rounded-xl overflow-hidden shadow-[0_0_50px_rgba(168,85,247,0.15)]">
+              <div className="bg-slate-900 px-4 py-3 flex gap-2 border-b border-slate-800">
+                <div className="w-3 h-3 rounded-full bg-red-500/50"></div>
+                <div className="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+                <div className="w-3 h-3 rounded-full bg-green-500/50"></div>
+              </div>
+              <div className="p-6 font-mono text-sm space-y-3 h-[400px] overflow-hidden relative">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 z-10 pointer-events-none"></div>
+                <div className="animate-pulse">
+                  <div className="text-purple-400">root@civil-sentry:~# stix-ingest --target=alpha.gov.org</div>
+                  <div className="text-slate-500">[+] Requesting AuthorizationGrant from keychain... OK</div>
+                  <div className="text-slate-500">[+] Mode: AUTHORIZED_ASSESSMENT. Scope matches target.</div>
+                  <div className="text-green-400">[PASS] Cryptographic verification of auth token complete.</div>
+                  <br />
+                  <div className="text-purple-400">root@civil-sentry:~# run-collectors --passive-dns</div>
+                  <div className="text-slate-400">  [dns] Resolving MX records for alpha.gov.org...</div>
+                  <div className="text-slate-300">    → mail1.alpha.gov.org (TTL: 3600)</div>
+                  <div className="text-slate-300">    → mail2.alpha.gov.org (TTL: 3600)</div>
+                  <div className="text-yellow-400">  [evidence] Hashing observation to SHA-256... 0a8f7c6e...</div>
+                  <br />
+                  <div className="text-purple-400">root@civil-sentry:~# ai-analyst --grounding=strict</div>
+                  <div className="text-slate-500">  [ai] Analyzing exposed banners...</div>
+                  <div className="text-red-400">  [!] FINDING: Outdated Exchange Server detected (CVE-2023-XXXX)</div>
+                  <div className="text-green-400">  [✓] VERIFIED: Bound to Evidence ID 0a8f7c6e</div>
+                  <div className="text-slate-400">  [stix] Emitted Indicator and Vulnerability objects.</div>
+                  <br />
+                  <div className="text-purple-400">root@civil-sentry:~# export-report --format=STIX2.1</div>
+                  <div className="text-slate-300">  [export] Compiling threat intelligence package...</div>
+                </div>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
