@@ -1,183 +1,168 @@
-import { motion } from 'framer-motion';
-import { Shield, Globe, Users, ArrowRight, Check, Activity, Database, Lock, Fingerprint } from 'lucide-react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Shield, Globe, ArrowRight, Check, Activity, Database, Lock, Fingerprint, Menu } from 'lucide-react';
+import { CyberGlobe } from './CyberGlobe';
+import { useState, useEffect } from 'react';
 
 const features = [
   {
+    title: "Triangulación Criptográfica",
+    description: "Cada observación OSINT genera un hash inmutable. Si un agente de IA intenta alucinar un hallazgo sin evidencia criptográfica subyacente, el orquestador lo rechaza instantáneamente.",
     icon: Database,
-    title: "OSINT Basado en Evidencia",
-    description: "Separamos observaciones pasivas de hallazgos verificados. Cada punto de dato tiene una cadena de custodia SHA-256.",
     color: "from-blue-500 to-cyan-500"
   },
   {
-    icon: Fingerprint,
-    title: "AI Grounding (Cero Alucinaciones)",
-    description: "Nuestra IA no puede generar un Hallazgo clasificado como VERIFICADO sin enlazarlo a un ID de evidencia real. Fin de los falsos positivos.",
+    title: "Autorización Basada en Firmas",
+    description: "Nunca cruzamos la línea hacia el ataque activo. Las pruebas dinámicas están bloqueadas criptográficamente hasta que la administración firma y provee un AuthorizationGrant.",
+    icon: Lock,
     color: "from-purple-500 to-pink-500"
   },
   {
-    icon: Lock,
-    title: "Fronteras de Autorización",
-    description: "Evaluación activa bloqueada criptográficamente si no existe un AuthorizationGrant válido, evitando intrusiones ilegales.",
-    color: "from-orange-500 to-red-500"
+    title: "Mapeo de Huella Digital STIX",
+    description: "Desde DNS huérfanos hasta repositorios filtrados. Todos los artefactos se estructuran en grafos STIX 2.1 nativos para ingesta directa en el SIEM gubernamental.",
+    icon: Fingerprint,
+    color: "from-amber-500 to-orange-500"
   },
   {
-    icon: Globe,
-    title: "Telemetría OSINT Global",
-    description: "Rastreo de DNS pasivo, exposición de puertos y huellas dactilares de servidores desde múltiples puntos de presencia sin emitir alertas.",
-    color: "from-green-500 to-emerald-500"
+    title: "Zero Hallucinaciones",
+    description: "El pipeline de IA está atado a la realidad (Grounding). Solo correlaciona CVEs reales sobre banners reales interceptados en la recolección pasiva.",
+    icon: Activity,
+    color: "from-emerald-500 to-teal-500"
   }
 ];
 
-const stats = [
-  { value: "SHA-256", label: "Cadena de Custodia" },
-  { value: "0", label: "Falsos Positivos IA" },
-  { value: "STIX 2.1", label: "Interoperabilidad" },
-  { value: "100%", label: "Cumplimiento Legal" },
-];
-
 const competitors = [
-  { name: "Sistemas MISP Clásicos", evidence: false, aiGrounded: false, authGates: false, focus: "Comunidad/SIEM", highlight: false },
-  { name: "OpenCTI", evidence: true, aiGrounded: false, authGates: false, focus: "Campañas/TTPs", highlight: false },
-  { name: "Civil Sentry", evidence: true, aiGrounded: true, authGates: true, focus: "Exposición Externa", highlight: true },
+  { name: 'Civil Sentry', evidence: true, aiGrounded: true, authGates: true, focus: 'Auditoría Perimetral', highlight: true },
+  { name: 'MISP / OpenCTI', evidence: false, aiGrounded: false, authGates: false, focus: 'Compartir IOCs', highlight: false },
+  { name: 'Shodan / Censys', evidence: false, aiGrounded: false, authGates: false, focus: 'Indexación Bruta', highlight: false },
 ];
 
 export function LandingPage({ onEnterApp }: { onEnterApp: () => void }) {
+  const { scrollY } = useScroll();
+  const y1 = useTransform(scrollY, [0, 1000], [0, 200]);
+  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  
+  const [scrolled, setScrolled] = useState(false);
+  
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-slate-950 text-white overflow-hidden selection:bg-purple-500/30 font-sans">
-      {/* Cinematic Background */}
-      <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900/40 via-slate-950 to-slate-950"></div>
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wNSkiLz48L3N2Zz4=')] opacity-50"></div>
+    <div className="min-h-screen bg-slate-950 text-white font-sans selection:bg-purple-500/30 overflow-hidden relative">
+      
+      {/* Premium Fixed Navigation */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${scrolled ? 'bg-slate-950/80 backdrop-blur-md border-slate-800 py-4' : 'bg-transparent border-transparent py-6'}`}>
+        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+          <div className="flex items-center gap-3 group cursor-pointer">
+            <Shield className="w-8 h-8 text-purple-500 group-hover:text-purple-400 transition-colors" />
+            <span className="font-bold text-xl tracking-tight">CIVIL SENTRY</span>
+          </div>
+          <div className="hidden md:flex items-center gap-8 text-sm font-mono text-slate-300">
+            <a href="#mapeo" className="hover:text-purple-400 transition-colors">OSINT LEO</a>
+            <a href="#opticas" className="hover:text-purple-400 transition-colors">EVIDENCIAS</a>
+            <a href="#madurez" className="hover:text-purple-400 transition-colors">MADUREZ CTI</a>
+            <button onClick={onEnterApp} className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded font-bold transition-all shadow-[0_0_15px_rgba(168,85,247,0.4)]">
+              INICIAR CONSOLA
+            </button>
+          </div>
+          <div className="md:hidden">
+            <Menu className="w-6 h-6 text-slate-300" />
+          </div>
+        </div>
+      </nav>
+
+      {/* Abstract Background Elements */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-purple-900/20 blur-[120px] rounded-full" />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-blue-900/20 blur-[120px] rounded-full" />
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
       </div>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 pt-20 z-10">
-        <div className="max-w-7xl mx-auto text-center">
+      <section className="relative pt-40 pb-32 px-4 z-10 flex flex-col items-center justify-center min-h-[90vh]">
+        <motion.div 
+          style={{ y: y1, opacity }}
+          className="text-center max-w-5xl mx-auto w-full"
+        >
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
+            transition={{ duration: 0.8 }}
           >
-            <div className="inline-flex items-center gap-3 px-5 py-2 bg-purple-900/30 border border-purple-500/30 rounded-full text-purple-300 text-sm mb-8 backdrop-blur-md">
-              <Shield className="w-4 h-4" />
-              <span className="font-mono tracking-widest uppercase">Evidence-Driven Cyber Awareness</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full text-purple-400 text-sm font-mono mb-8 backdrop-blur-sm">
+              <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
+              EVIDENCE-DRIVEN CYBER SITUATIONAL AWARENESS
             </div>
-
-            <h1 className="text-5xl md:text-8xl font-extrabold mb-6 tracking-tight">
-              <span className="bg-gradient-to-r from-purple-400 via-indigo-400 to-blue-400 bg-clip-text text-transparent">
-                Civil Sentry
-              </span>
+            
+            <h1 className="text-6xl md:text-8xl font-black mb-8 leading-[1.1] tracking-tighter bg-clip-text text-transparent bg-gradient-to-br from-white via-slate-200 to-slate-500">
+              Inteligencia <br className="hidden md:block" />
+              Basada en Evidencias.
             </h1>
-
-            <p className="text-2xl md:text-4xl text-slate-300 mb-6 font-light max-w-4xl mx-auto">
-              Inteligencia OSINT que puedes probar en un juzgado.
-            </p>
-            <p className="text-lg md:text-xl text-slate-400 mb-12 max-w-3xl mx-auto leading-relaxed">
-              Plataforma de exposición externa diseñada para administraciones públicas. Separamos la observación pasiva del ataque activo mediante barreras de autorización estrictas y pruebas criptográficas.
+            
+            <p className="text-xl md:text-2xl text-slate-400 mb-12 max-w-3xl mx-auto leading-relaxed font-light">
+              Plataforma de mapeo OSINT paramétrico diseñada para auditar infraestructuras críticas del estado sin cruzar la línea del ataque activo.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16">
-              <motion.button
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              <button 
                 onClick={onEnterApp}
-                className="group relative px-8 py-4 bg-purple-600 rounded-lg text-lg font-bold shadow-[0_0_40px_rgba(168,85,247,0.4)] hover:shadow-[0_0_60px_rgba(168,85,247,0.6)] transition-all overflow-hidden"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                className="group relative px-8 py-4 bg-white text-slate-950 rounded-xl text-lg font-bold overflow-hidden transition-transform hover:scale-105"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <span className="relative flex items-center gap-2 text-white">
-                  INICIAR ESCANEO SINTÉTICO
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-blue-400 opacity-0 group-hover:opacity-20 transition-opacity" />
+                <span className="relative flex items-center gap-2">
+                  Desplegar Analista IA <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </span>
-              </motion.button>
-              
-              <motion.a
+              </button>
+              <a 
                 href="#pitch"
-                className="px-8 py-4 bg-slate-900 border border-slate-700 rounded-lg text-lg font-semibold hover:bg-slate-800 hover:border-slate-600 transition-all text-slate-300"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                className="px-8 py-4 bg-slate-900 border border-slate-700 hover:border-slate-500 rounded-xl text-lg font-bold text-white transition-colors"
               >
-                Ver Auditoría de Seguridad
-              </motion.a>
-            </div>
-
-            {/* Premium Stats Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
-              {stats.map((stat, i) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 + 0.8 }}
-                  className="bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-xl p-6 text-left hover:border-purple-500/30 transition-colors"
-                >
-                  <div className="text-4xl font-black text-white mb-2">{stat.value}</div>
-                  <div className="text-xs font-mono text-purple-400 uppercase tracking-widest">{stat.label}</div>
-                </motion.div>
-              ))}
+                Auditoría CTI
+              </a>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       </section>
 
-      {/* 3D Satellite Visualization Section */}
-      <section className="relative py-32 px-4 z-10 border-t border-slate-800 bg-slate-950/50 backdrop-blur-3xl">
+      {/* CyberGlobe 3D OSINT Visualizer */}
+      <section id="mapeo" className="relative py-32 px-4 z-10 border-t border-slate-800 bg-slate-950/50 backdrop-blur-3xl">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 1 }}
+            className="grid lg:grid-cols-2 gap-12 items-center"
           >
-            <div className="mb-16">
+            <div className="mb-16 lg:mb-0">
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-purple-900/30 border border-purple-500/30 rounded text-purple-400 text-xs font-mono mb-6 uppercase tracking-widest">
-                <Globe className="w-3 h-3" /> Red Global de Recolección OSINT
+                <Globe className="w-3 h-3" /> Red Global OSINT LEO
               </div>
-              <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
-                Mapeo de Exposición Perimetral
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
+                Mapeo Perimetral Vía Satélite
               </h2>
-              <p className="text-xl text-slate-400 max-w-3xl leading-relaxed">
-                Nuestros nodos pasivos escanean y triangulan la huella digital de tu infraestructura a nivel global. Las observaciones se capturan de forma no intrusiva y se inyectan en la tubería de evidencias inmutables.
+              <p className="text-xl text-slate-400 max-w-xl leading-relaxed mb-8">
+                Nuestros nodos virtuales (satélites de escaneo pasivo) triangulan la huella digital de tu infraestructura a nivel global.
               </p>
+              
+              <ul className="space-y-4 text-slate-300 font-mono text-sm">
+                <li className="flex items-center gap-3"><Check className="w-5 h-5 text-purple-500"/> Escaneo BGP y ASN Global</li>
+                <li className="flex items-center gap-3"><Check className="w-5 h-5 text-purple-500"/> Fingerprinting de Banners TLS</li>
+                <li className="flex items-center gap-3"><Check className="w-5 h-5 text-purple-500"/> Resolución Inversa Constante</li>
+              </ul>
             </div>
 
-            {/* Cyber Terminal Representation */}
-            <div className="bg-black border border-purple-500/30 rounded-xl overflow-hidden shadow-[0_0_50px_rgba(168,85,247,0.15)]">
-              <div className="bg-slate-900 px-4 py-3 flex gap-2 border-b border-slate-800">
-                <div className="w-3 h-3 rounded-full bg-red-500/50"></div>
-                <div className="w-3 h-3 rounded-full bg-yellow-500/50"></div>
-                <div className="w-3 h-3 rounded-full bg-green-500/50"></div>
-              </div>
-              <div className="p-6 font-mono text-sm space-y-3 h-[400px] overflow-hidden relative">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 z-10 pointer-events-none"></div>
-                <div className="animate-pulse">
-                  <div className="text-purple-400">root@civil-sentry:~# stix-ingest --target=alpha.gov.org</div>
-                  <div className="text-slate-500">[+] Requesting AuthorizationGrant from keychain... OK</div>
-                  <div className="text-slate-500">[+] Mode: AUTHORIZED_ASSESSMENT. Scope matches target.</div>
-                  <div className="text-green-400">[PASS] Cryptographic verification of auth token complete.</div>
-                  <br />
-                  <div className="text-purple-400">root@civil-sentry:~# run-collectors --passive-dns</div>
-                  <div className="text-slate-400">  [dns] Resolving MX records for alpha.gov.org...</div>
-                  <div className="text-slate-300">    → mail1.alpha.gov.org (TTL: 3600)</div>
-                  <div className="text-slate-300">    → mail2.alpha.gov.org (TTL: 3600)</div>
-                  <div className="text-yellow-400">  [evidence] Hashing observation to SHA-256... 0a8f7c6e...</div>
-                  <br />
-                  <div className="text-purple-400">root@civil-sentry:~# ai-analyst --grounding=strict</div>
-                  <div className="text-slate-500">  [ai] Analyzing exposed banners...</div>
-                  <div className="text-red-400">  [!] FINDING: Outdated Exchange Server detected (CVE-2023-XXXX)</div>
-                  <div className="text-green-400">  [✓] VERIFIED: Bound to Evidence ID 0a8f7c6e</div>
-                  <div className="text-slate-400">  [stix] Emitted Indicator and Vulnerability objects.</div>
-                  <br />
-                  <div className="text-purple-400">root@civil-sentry:~# export-report --format=STIX2.1</div>
-                  <div className="text-slate-300">  [export] Compiling threat intelligence package...</div>
-                </div>
-              </div>
+            <div className="relative">
+              <CyberGlobe />
             </div>
           </motion.div>
         </div>
       </section>
 
       {/* OSINT Técnicas & Ópticas */}
-      <section className="relative py-32 px-4 z-10">
+      <section id="opticas" className="relative py-32 px-4 z-10">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-900/30 border border-blue-500/30 rounded text-blue-400 text-xs font-mono mb-6 uppercase tracking-widest">
@@ -257,7 +242,7 @@ export function LandingPage({ onEnterApp }: { onEnterApp: () => void }) {
       </section>
 
       {/* Differentiation & Competitors */}
-      <section id="pitch" className="relative py-32 px-4 z-10">
+      <section id="madurez" className="relative py-32 px-4 z-10">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
             <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
@@ -338,7 +323,7 @@ export function LandingPage({ onEnterApp }: { onEnterApp: () => void }) {
       </section>
 
       {/* Final Pitch CTA */}
-      <section className="relative py-32 px-4 z-10 border-t border-slate-800 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-purple-900/20 via-slate-950 to-slate-950">
+      <section id="pitch" className="relative py-32 px-4 z-10 border-t border-slate-800 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-purple-900/20 via-slate-950 to-slate-950">
         <div className="max-w-5xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
