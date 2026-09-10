@@ -1,4 +1,4 @@
-import type { AuthorizationGrant, Mode } from '@civic-sentry/schema';
+import type { AuthorizationGrant, Mode } from '@civil-sentry/schema';
 
 export class AuthorizationError extends Error {}
 

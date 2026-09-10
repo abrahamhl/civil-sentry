@@ -1,5 +1,5 @@
 import dns from 'node:dns/promises';
-import type { Observation } from '@civic-sentry/schema';
+import type { Observation } from '@civil-sentry/schema';
 
 export interface DnsLookupResult {
   a: string[];
@@ -54,7 +54,7 @@ export async function collectPassiveDns(args: CollectPassiveDnsArgs): Promise<Ob
   const base = {
     runId: args.runId,
     assetId: args.assetId,
-    collector: '@civic-sentry/collectors/dns',
+    collector: '@civil-sentry/collectors/dns',
     collectorVersion: '0.1.0',
     observedAt,
     mode: 'passive' as const,

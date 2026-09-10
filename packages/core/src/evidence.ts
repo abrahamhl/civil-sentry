@@ -1,4 +1,4 @@
-import type { Observation, Evidence, Confidence } from '@civic-sentry/schema';
+import type { Observation, Evidence, Confidence } from '@civil-sentry/schema';
 import { sha256 } from './hash.js';
 
 /**

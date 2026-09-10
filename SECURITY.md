@@ -2,7 +2,7 @@
 
 ## Scope of this project
 
-CIVIC-SENTRY is a methodology showcase and evidence-pipeline
+civil-sentry is a methodology showcase and evidence-pipeline
 implementation. It ships **no active exploitation, no credential-attack
 tooling, and no indiscriminate scanning capability** — see
 `THREAT_MODEL.md` for the full boundary and why it is a hard architectural

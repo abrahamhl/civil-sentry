@@ -7,9 +7,9 @@
  * DNS infrastructure. Remediation/retest are NOT demonstrated here — see
  * CURRENT_TRUTH.md, that half of the pipeline is not implemented yet.
  */
-import type { AuthorizationGrant, Evidence } from '@civic-sentry/schema';
-import { collectPassiveDns, type DnsResolver, type DnsLookupResult } from '@civic-sentry/collectors';
-import { observationToEvidence, verifyEvidenceChain, assertAuthorized, AuthorizationError, acceptAiFinding } from '@civic-sentry/core';
+import type { AuthorizationGrant, Evidence } from '@civil-sentry/schema';
+import { collectPassiveDns, type DnsResolver, type DnsLookupResult } from '@civil-sentry/collectors';
+import { observationToEvidence, verifyEvidenceChain, assertAuthorized, AuthorizationError, acceptAiFinding } from '@civil-sentry/core';
 import { organizations, assets } from './organizations.js';
 
 const syntheticAnswers: Record<string, DnsLookupResult> = {
@@ -35,7 +35,7 @@ const syntheticResolver: DnsResolver = async (domain) =>
   syntheticAnswers[domain] ?? { a: [], mx: [], txt: [] };
 
 async function main(): Promise<void> {
-  console.log('=== CIVIC-SENTRY synthetic demonstration — Elzendaal district, Gelderland (fictional) ===\n');
+  console.log('=== civil-sentry synthetic demonstration — Elzendaal district, Gelderland (fictional) ===\n');
   const runId = `run_demo_${Date.now()}`;
   const allEvidence: Evidence[] = [];
 

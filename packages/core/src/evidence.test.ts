@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import type { Observation } from '@civic-sentry/schema';
+import type { Observation } from '@civil-sentry/schema';
 import { observationToEvidence, verifyEvidenceChain, EvidenceIntegrityError } from './evidence.js';
 
 const observation: Observation = {
@@ -9,7 +9,7 @@ const observation: Observation = {
   assetId: 'asset_1',
   type: 'DNS_TXT',
   source: 'public-dns-resolver',
-  collector: '@civic-sentry/collectors/dns',
+  collector: '@civil-sentry/collectors/dns',
   collectorVersion: '0.1.0',
   observedAt: '2026-09-10T00:00:00.000Z',
   rawValue: [['v=spf1 -all']],

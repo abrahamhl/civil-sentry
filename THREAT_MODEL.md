@@ -1,6 +1,6 @@
-# THREAT_MODEL.md — CIVIC-SENTRY as a system
+# THREAT_MODEL.md — civil-sentry as a system
 
-**Scope of this document:** the threats CIVIC-SENTRY itself introduces or is
+**Scope of this document:** the threats civil-sentry itself introduces or is
 exposed to — not a sample threat model for a *target* it assesses (that
 artifact, per-engagement, is `commercial/SAMPLE_REPORT.md`, not yet
 written — see `CURRENT_TRUTH.md`). Method: STRIDE per component,

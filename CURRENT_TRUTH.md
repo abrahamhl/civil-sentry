@@ -5,7 +5,7 @@
 **Rule:** if it cannot be demonstrated with a command that exits 0, it is not claimed here as done.
 
 > **Repo slug note:** this repository was created as `civil-sentry`
-> (a typo — one letter off from the project's actual name, CIVIC-SENTRY)
+> (a typo — one letter off from the project's actual name, civil-sentry)
 > and is pending a rename by the owner. GitHub redirects the old slug
 > automatically once renamed, so no link in this documentation breaks
 > either way. Flagged here rather than left for a reviewer to wonder about.
@@ -24,7 +24,7 @@ rather than a one-time README claim.
 
 ## What this repository is, as of this commit
 
-CIVIC-SENTRY is a new project. It is **not** a rename, fork, or continuation
+civil-sentry is a new project. It is **not** a rename, fork, or continuation
 of `civic-relay` (an unrelated offline-first crisis-messaging demo by the
 same author — different domain, different codebase, not touched by this
 work). It also does not import code from `abrahamhl/argus` (a private,
@@ -38,12 +38,12 @@ because files were copied.
 
 | Capability | Evidence | Command to verify |
 |---|---|---|
-| Org/Asset/Observation/Evidence/Finding schema (typed, zero runtime dependencies) | `packages/schema/src/*.ts` | `pnpm --filter @civic-sentry/schema build` |
-| Confidence model (`VERIFIED`/`SUPPORTED`/`INFERRED`/`UNKNOWN`/`CONTRADICTED`) enforced at the type level | `packages/schema/src/confidence.ts` + `confidence.test.ts` | `pnpm --filter @civic-sentry/schema test` |
-| Evidence immutability + SHA-256 provenance chain, with a tamper-detection test | `packages/core/src/evidence.ts` + `evidence.test.ts` | `pnpm --filter @civic-sentry/core test` |
-| Authorization gate: `AUTHORIZED_ASSESSMENT` mode refuses to proceed without a valid, unexpired, scope-matching `AuthorizationGrant`; `STREET_PASSIVE` never needs one | `packages/core/src/authorization.ts` + `authorization.test.ts` (6 cases: missing/expired/wrong-org/out-of-scope/valid/passive-noop) | `pnpm --filter @civic-sentry/core test` |
-| AI Analyst Adapter cannot emit a `VERIFIED` Finding without a resolvable evidence ID | `packages/core/src/ai-adapter.ts` + `ai-adapter.test.ts` | `pnpm --filter @civic-sentry/core test` |
-| Passive DNS/MX/TXT observation — real Node `dns/promises` resolver, injectable for tests, one query pass, no active probing | `packages/collectors/src/dns.ts` + `dns.test.ts` | `pnpm --filter @civic-sentry/collectors test` |
+| Org/Asset/Observation/Evidence/Finding schema (typed, zero runtime dependencies) | `packages/schema/src/*.ts` | `pnpm --filter @civil-sentry/schema build` |
+| Confidence model (`VERIFIED`/`SUPPORTED`/`INFERRED`/`UNKNOWN`/`CONTRADICTED`) enforced at the type level | `packages/schema/src/confidence.ts` + `confidence.test.ts` | `pnpm --filter @civil-sentry/schema test` |
+| Evidence immutability + SHA-256 provenance chain, with a tamper-detection test | `packages/core/src/evidence.ts` + `evidence.test.ts` | `pnpm --filter @civil-sentry/core test` |
+| Authorization gate: `AUTHORIZED_ASSESSMENT` mode refuses to proceed without a valid, unexpired, scope-matching `AuthorizationGrant`; `STREET_PASSIVE` never needs one | `packages/core/src/authorization.ts` + `authorization.test.ts` (6 cases: missing/expired/wrong-org/out-of-scope/valid/passive-noop) | `pnpm --filter @civil-sentry/core test` |
+| AI Analyst Adapter cannot emit a `VERIFIED` Finding without a resolvable evidence ID | `packages/core/src/ai-adapter.ts` + `ai-adapter.test.ts` | `pnpm --filter @civil-sentry/core test` |
+| Passive DNS/MX/TXT observation — real Node `dns/promises` resolver, injectable for tests, one query pass, no active probing | `packages/collectors/src/dns.ts` + `dns.test.ts` | `pnpm --filter @civil-sentry/collectors test` |
 | Reproducible synthetic demonstration — fictional Elzendaal district, 3 fictional orgs, full pipeline incl. authorization-gate block/allow | `fixtures/gelderland-synthetic/` | `pnpm demo:synthetic` |
 | CI: install (frozen lockfile), build, test, type-check, and the synthetic demo on every push/PR | `.github/workflows/ci.yml` | GitHub Actions run linked on the PR |
 

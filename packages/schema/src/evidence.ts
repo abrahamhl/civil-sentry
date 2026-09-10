@@ -4,7 +4,7 @@ export type ObservationType = 'DNS_A' | 'DNS_MX' | 'DNS_TXT' | 'DNS_NS' | 'HTTP_
 
 /**
  * A raw, as-captured signal. Not yet evidence — becoming Evidence is what
- * attaches a hash and a confidence to it. See @civic-sentry/core/evidence.
+ * attaches a hash and a confidence to it. See @civil-sentry/core/evidence.
  */
 export interface Observation {
   id: string;

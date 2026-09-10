@@ -1,5 +1,5 @@
 {
-  "name": "@civic-sentry/collectors",
+  "name": "@civil-sentry/collectors",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -11,6 +11,6 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@civic-sentry/schema": "workspace:*"
+    "@civil-sentry/schema": "workspace:*"
   }
 }

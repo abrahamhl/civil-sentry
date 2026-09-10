@@ -1,5 +1,5 @@
 {
-  "name": "@civic-sentry/demo-gelderland-synthetic",
+  "name": "@civil-sentry/demo-gelderland-synthetic",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -10,8 +10,8 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@civic-sentry/schema": "workspace:*",
-    "@civic-sentry/core": "workspace:*",
-    "@civic-sentry/collectors": "workspace:*"
+    "@civil-sentry/schema": "workspace:*",
+    "@civil-sentry/core": "workspace:*",
+    "@civil-sentry/collectors": "workspace:*"
   }
 }

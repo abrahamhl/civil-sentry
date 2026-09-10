@@ -7,7 +7,7 @@ integration than actually happened.
 
 ## 1. Standards bodies and public frameworks
 
-| Source | What it actually defines | Relevance to CIVIC-SENTRY |
+| Source | What it actually defines | Relevance to civil-sentry |
 |---|---|---|
 | **NIST CSF 2.0** (Feb 2024) | 6 functions (Govern, Identify, Protect, Detect, Respond, Recover), 22 categories, 106 subcategories. Govern is new in 2.0. | Used as the outcome taxonomy for `Finding.category` — referenced, not reimplemented. No CSF conformance is claimed. |
 | **ENISA Threat Landscape 2025** (published Oct 1, 2025; 4,875 incidents analyzed, Jul 2024–Jun 2025) | Public administration is the most-targeted EU sector (38.2% of incidents); converging cybercrime/espionage/hacktivism; AI-assisted attacks rising. | Grounds the "why this matters" framing in `README.md` with a cited, dated statistic. |
@@ -19,10 +19,10 @@ integration than actually happened.
 
 ## 2. CTI platforms (adjacent, not competing at this project's scale)
 
-| Platform | Positioning | Why CIVIC-SENTRY is not "a smaller OpenCTI" |
+| Platform | Positioning | Why civil-sentry is not "a smaller OpenCTI" |
 |---|---|---|
-| **MISP** | Structured IOC sharing between trusted communities; strong feed ingestion, correlation, wide SIEM/IDS integration. | Assumes a contributing analyst community and inbound threat feeds. CIVIC-SENTRY has neither — single-operator, single-target evidence pipeline. |
-| **OpenCTI** | Knowledge-graph platform relating threat actors, malware, campaigns, TTPs; STIX-native; added MISP connectors in 2025. | Models *strategic* threat-actor intelligence. CIVIC-SENTRY models *an organization's own external exposure* — closer to an ASM tool with a CTI-grade evidence layer. |
+| **MISP** | Structured IOC sharing between trusted communities; strong feed ingestion, correlation, wide SIEM/IDS integration. | Assumes a contributing analyst community and inbound threat feeds. civil-sentry has neither — single-operator, single-target evidence pipeline. |
+| **OpenCTI** | Knowledge-graph platform relating threat actors, malware, campaigns, TTPs; STIX-native; added MISP connectors in 2025. | Models *strategic* threat-actor intelligence. civil-sentry models *an organization's own external exposure* — closer to an ASM tool with a CTI-grade evidence layer. |
 
 **Honest conclusion:** no gap exists for "another IOC-sharing platform" or
 "another threat-actor graph." The defensible niche is evidence/
@@ -44,11 +44,11 @@ Remediation → Retest → Proof` with the same `Confidence` enum
 (`docs/JULES_HANDOFF.md`) was written but never executed — one commit
 total.
 
-**What CIVIC-SENTRY reuses:** the design decisions (Evidence immutability,
+**What civil-sentry reuses:** the design decisions (Evidence immutability,
 deterministic-AI-out-of-critical-path, pnpm-only discipline, the
 Confidence vocabulary) — same author, same threat model, not copied code.
 **What it does not reuse:** ARGUS is scoped to single-target SME
-commercial assessment with a Dutch-language client mode; CIVIC-SENTRY is
+commercial assessment with a Dutch-language client mode; civil-sentry is
 scoped to multi-organization situational awareness with authorization
 boundaries and STIX interoperability. Kept as separate repositories so a
 reviewer doesn't have to untangle a commercial consulting tool from a CTI

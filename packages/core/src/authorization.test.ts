@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import type { AuthorizationGrant } from '@civic-sentry/schema';
+import type { AuthorizationGrant } from '@civil-sentry/schema';
 import { assertAuthorized, AuthorizationError } from './authorization.js';
 
 const baseGrant: AuthorizationGrant = {

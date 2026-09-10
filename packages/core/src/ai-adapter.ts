@@ -1,4 +1,4 @@
-import type { Finding, Confidence, Evidence } from '@civic-sentry/schema';
+import type { Finding, Confidence, Evidence } from '@civil-sentry/schema';
 import { sha256 } from './hash.js';
 
 export class UngroundedFindingError extends Error {}

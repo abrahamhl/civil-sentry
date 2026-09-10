@@ -1,5 +1,5 @@
 {
-  "name": "civic-sentry",
+  "name": "civil-sentry",
   "version": "0.1.0",
   "private": true,
   "description": "Evidence-driven cyber situational-awareness platform: separates public observation from verified findings, models authorization boundaries, produces STIX-interoperable evidence.",
@@ -8,7 +8,7 @@
     "build": "pnpm -r run build",
     "test": "pnpm -r run test",
     "lint": "pnpm -r run type-check",
-    "demo:synthetic": "pnpm --filter @civic-sentry/demo-gelderland-synthetic run demo"
+    "demo:synthetic": "pnpm --filter @civil-sentry/demo-gelderland-synthetic run demo"
   },
   "devDependencies": {
     "typescript": "^5.6.2",

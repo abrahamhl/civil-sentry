@@ -17,25 +17,25 @@ importers:
 
   fixtures/gelderland-synthetic:
     dependencies:
-      '@civic-sentry/collectors':
+      '@civil-sentry/collectors':
         specifier: workspace:*
         version: link:../../packages/collectors
-      '@civic-sentry/core':
+      '@civil-sentry/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@civic-sentry/schema':
+      '@civil-sentry/schema':
         specifier: workspace:*
         version: link:../../packages/schema
 
   packages/collectors:
     dependencies:
-      '@civic-sentry/schema':
+      '@civil-sentry/schema':
         specifier: workspace:*
         version: link:../schema
 
   packages/core:
     dependencies:
-      '@civic-sentry/schema':
+      '@civil-sentry/schema':
         specifier: workspace:*
         version: link:../schema
 

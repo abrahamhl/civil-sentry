@@ -1,4 +1,4 @@
-# CIVIC-SENTRY
+# civil-sentry
 
 Evidence-driven cyber situational-awareness platform. It separates
 **public observation** from **verified findings**, models **authorization

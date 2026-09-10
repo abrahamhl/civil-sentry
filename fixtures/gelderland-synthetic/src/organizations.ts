@@ -6,7 +6,7 @@
  * carries fictional: true explicitly — see packages/schema Organization
  * type, which requires this field with no default.
  */
-import type { Organization, Asset } from '@civic-sentry/schema';
+import type { Organization, Asset } from '@civil-sentry/schema';
 
 export const organizations: Organization[] = [
   {
