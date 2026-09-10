@@ -77,3 +77,4 @@ html {
               0 0 90px rgba(249, 115, 22, 0.2);
   transition: box-shadow 0.3s ease;
 }
+html { scroll-behavior: smooth; }

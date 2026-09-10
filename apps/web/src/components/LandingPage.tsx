@@ -1,45 +1,91 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Shield, Globe, ArrowRight, Check, Activity, Database, Lock, Fingerprint, Menu } from 'lucide-react';
+import { Shield, Globe, Lock, Fingerprint, Activity, Database, ChevronRight, Terminal, Server, Network } from 'lucide-react';
 import { CyberGlobe } from './CyberGlobe';
 import { useState, useEffect } from 'react';
 
-const features = [
-  {
-    title: "Triangulación Criptográfica",
-    description: "Cada observación OSINT genera un hash inmutable. Si un agente de IA intenta alucinar un hallazgo sin evidencia criptográfica subyacente, el orquestador lo rechaza instantáneamente.",
-    icon: Database,
-    color: "from-blue-500 to-cyan-500"
-  },
-  {
-    title: "Autorización Basada en Firmas",
-    description: "Nunca cruzamos la línea hacia el ataque activo. Las pruebas dinámicas están bloqueadas criptográficamente hasta que la administración firma y provee un AuthorizationGrant.",
-    icon: Lock,
-    color: "from-purple-500 to-pink-500"
-  },
-  {
-    title: "Mapeo de Huella Digital STIX",
-    description: "Desde DNS huérfanos hasta repositorios filtrados. Todos los artefactos se estructuran en grafos STIX 2.1 nativos para ingesta directa en el SIEM gubernamental.",
-    icon: Fingerprint,
-    color: "from-amber-500 to-orange-500"
-  },
-  {
-    title: "Zero Hallucinaciones",
-    description: "El pipeline de IA está atado a la realidad (Grounding). Solo correlaciona CVEs reales sobre banners reales interceptados en la recolección pasiva.",
-    icon: Activity,
-    color: "from-emerald-500 to-teal-500"
-  }
-];
+const SmoothScrollLink = ({ href, children, className }: any) => {
+  const handleClick = (e: any) => {
+    e.preventDefault();
+    const target = document.getElementById(href.replace('#', ''));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+  return <a href={href} onClick={handleClick} className={className}>{children}</a>;
+};
 
-const competitors = [
-  { name: 'Civil Sentry', evidence: true, aiGrounded: true, authGates: true, focus: 'Auditoría Perimetral', highlight: true },
-  { name: 'MISP / OpenCTI', evidence: false, aiGrounded: false, authGates: false, focus: 'Compartir IOCs', highlight: false },
-  { name: 'Shodan / Censys', evidence: false, aiGrounded: false, authGates: false, focus: 'Indexación Bruta', highlight: false },
-];
+// --- SIMULATORS ---
+
+const LogStreamSimulator = () => {
+  const [logs, setLogs] = useState<string[]>([]);
+  useEffect(() => {
+    const stream = [
+      "INIT passive_dns_scan --target=defensa.gob",
+      "[+] Resolving subdomains via Certificate Transparency...",
+      "[+] Found: mail.defensa.gob (IP: 198.51.100.4)",
+      "[+] Found: vpn.defensa.gob (IP: 198.51.100.5)",
+      "INIT tls_banner_grab --stealth",
+      "[!] WARNING: mail.defensa.gob exposing Exchange 2013",
+      "[+] Hash evidence generated: 0x9f8a...b1c2",
+      "SLEEP 30s..."
+    ];
+    let i = 0;
+    const interval = setInterval(() => {
+      setLogs(prev => [...prev.slice(-4), stream[i]]);
+      i = (i + 1) % stream.length;
+    }, 1500);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="bg-black border border-purple-500/30 rounded-xl p-4 font-mono text-xs h-48 overflow-hidden flex flex-col justify-end shadow-inner">
+      <div className="flex items-center gap-2 mb-2 border-b border-slate-800 pb-2">
+        <Terminal className="w-4 h-4 text-purple-500" />
+        <span className="text-slate-400">node-01.recolector.pasivo</span>
+      </div>
+      {logs.map((log, idx) => (
+        <div key={idx} className={`${log.includes('WARNING') ? 'text-amber-400' : log.includes('Hash') ? 'text-emerald-400' : 'text-slate-300'} mb-1 animate-pulse`}>
+          {log}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const AIPipelineSimulator = () => {
+  return (
+    <div className="bg-black border border-blue-500/30 rounded-xl p-4 font-mono text-xs h-48 overflow-hidden relative shadow-inner">
+      <div className="flex items-center gap-2 mb-4 border-b border-slate-800 pb-2">
+        <Server className="w-4 h-4 text-blue-500" />
+        <span className="text-slate-400">motor-inferencia.ia</span>
+      </div>
+      <div className="space-y-3">
+        <div className="flex gap-2 items-start">
+          <div className="w-2 h-2 mt-1 rounded-full bg-blue-500 animate-ping" />
+          <div className="text-slate-300">
+            <span className="text-blue-400">ANALIZANDO EVIDENCIA:</span> 0x9f8a...b1c2<br/>
+            <span className="text-slate-500">Correlacionando CVE database...</span>
+          </div>
+        </div>
+        <div className="flex gap-2 items-start opacity-70">
+          <div className="w-2 h-2 mt-1 rounded-full bg-emerald-500" />
+          <div className="text-emerald-400">
+            [GROUNDING CHECK PASS]<br/>
+            <span className="text-slate-400">Hallazgo soportado por firma TLS criptográfica. 0% riesgo de alucinación.</span>
+          </div>
+        </div>
+      </div>
+      <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-black to-transparent" />
+    </div>
+  );
+};
+
+// --- MAIN PAGE ---
 
 export function LandingPage({ onEnterApp }: { onEnterApp: () => void }) {
   const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [0, 1000], [0, 200]);
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const yHero = useTransform(scrollY, [0, 800], [0, 150]);
+  const opacityHero = useTransform(scrollY, [0, 400], [1, 0]);
   
   const [scrolled, setScrolled] = useState(false);
   
@@ -50,330 +96,183 @@ export function LandingPage({ onEnterApp }: { onEnterApp: () => void }) {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white font-sans selection:bg-purple-500/30 overflow-hidden relative">
+    <div className="min-h-screen bg-[#020617] text-white font-sans selection:bg-purple-500/30 overflow-hidden relative">
       
       {/* Premium Fixed Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${scrolled ? 'bg-slate-950/80 backdrop-blur-md border-slate-800 py-4' : 'bg-transparent border-transparent py-6'}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b ${scrolled ? 'bg-[#020617]/90 backdrop-blur-xl border-white/5 py-4 shadow-2xl' : 'bg-transparent border-transparent py-6'}`}>
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-          <div className="flex items-center gap-3 group cursor-pointer">
-            <Shield className="w-8 h-8 text-purple-500 group-hover:text-purple-400 transition-colors" />
-            <span className="font-bold text-xl tracking-tight">CIVIL SENTRY</span>
+          <div className="flex items-center gap-3 group cursor-pointer" onClick={() => window.scrollTo(0,0)}>
+            <Shield className="w-6 h-6 text-purple-500 group-hover:text-purple-400 transition-colors" />
+            <span className="font-bold tracking-[0.2em] text-sm text-slate-200">CIVIL SENTRY</span>
           </div>
-          <div className="hidden md:flex items-center gap-8 text-sm font-mono text-slate-300">
-            <a href="#mapeo" className="hover:text-purple-400 transition-colors">OSINT LEO</a>
-            <a href="#opticas" className="hover:text-purple-400 transition-colors">EVIDENCIAS</a>
-            <a href="#madurez" className="hover:text-purple-400 transition-colors">MADUREZ CTI</a>
-            <button onClick={onEnterApp} className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded font-bold transition-all shadow-[0_0_15px_rgba(168,85,247,0.4)]">
+          <div className="hidden md:flex items-center gap-10 text-[11px] font-mono tracking-widest text-slate-400">
+            <SmoothScrollLink href="#context" className="hover:text-purple-400 transition-colors">01. CONTEXTO</SmoothScrollLink>
+            <SmoothScrollLink href="#mvp" className="hover:text-purple-400 transition-colors">02. EL MVP</SmoothScrollLink>
+            <SmoothScrollLink href="#engine" className="hover:text-purple-400 transition-colors">03. MOTOR TÁCTICO</SmoothScrollLink>
+            <button onClick={onEnterApp} className="px-6 py-2.5 bg-white text-black hover:bg-purple-500 hover:text-white rounded-none font-bold transition-all">
               INICIAR CONSOLA
             </button>
-          </div>
-          <div className="md:hidden">
-            <Menu className="w-6 h-6 text-slate-300" />
           </div>
         </div>
       </nav>
 
-      {/* Abstract Background Elements */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-purple-900/20 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-blue-900/20 blur-[120px] rounded-full" />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
-      </div>
-
       {/* Hero Section */}
-      <section className="relative pt-40 pb-32 px-4 z-10 flex flex-col items-center justify-center min-h-[90vh]">
+      <section className="relative h-screen flex items-center justify-center pt-20">
+        <div className="absolute inset-0 z-0 opacity-80">
+           <CyberGlobe />
+        </div>
+        <div className="absolute inset-0 z-10 bg-gradient-to-b from-transparent via-[#020617]/50 to-[#020617]" />
+        
         <motion.div 
-          style={{ y: y1, opacity }}
-          className="text-center max-w-5xl mx-auto w-full"
+          style={{ y: yHero, opacity: opacityHero }}
+          className="relative z-20 text-center max-w-5xl mx-auto px-4 mt-32"
         >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full text-purple-400 text-sm font-mono mb-8 backdrop-blur-sm">
-              <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
-              EVIDENCE-DRIVEN CYBER SITUATIONAL AWARENESS
-            </div>
-            
-            <h1 className="text-6xl md:text-8xl font-black mb-8 leading-[1.1] tracking-tighter bg-clip-text text-transparent bg-gradient-to-br from-white via-slate-200 to-slate-500">
-              Inteligencia <br className="hidden md:block" />
+          <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-black/50 border border-white/10 rounded-full text-slate-300 text-xs font-mono mb-8 backdrop-blur-md">
+            <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse" />
+            VIGILANCIA PERIMETRAL DE ESTADO (OSINT)
+          </div>
+          
+          <h1 className="text-5xl md:text-8xl font-black mb-6 leading-[0.9] tracking-tighter">
+            Inteligencia <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-fuchsia-400 to-blue-500">
               Basada en Evidencias.
-            </h1>
-            
-            <p className="text-xl md:text-2xl text-slate-400 mb-12 max-w-3xl mx-auto leading-relaxed font-light">
-              Plataforma de mapeo OSINT paramétrico diseñada para auditar infraestructuras críticas del estado sin cruzar la línea del ataque activo.
-            </p>
+            </span>
+          </h1>
+          
+          <p className="text-lg md:text-xl text-slate-400 mb-12 max-w-2xl mx-auto font-light leading-relaxed">
+            Mapeamos la huella digital de la infraestructura crítica mediante recolección pasiva. Cero escaneos activos. Cero intrusión. Inteligencia CTI pura.
+          </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <button 
-                onClick={onEnterApp}
-                className="group relative px-8 py-4 bg-white text-slate-950 rounded-xl text-lg font-bold overflow-hidden transition-transform hover:scale-105"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-blue-400 opacity-0 group-hover:opacity-20 transition-opacity" />
-                <span className="relative flex items-center gap-2">
-                  Desplegar Analista IA <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </span>
-              </button>
-              <a 
-                href="#pitch"
-                className="px-8 py-4 bg-slate-900 border border-slate-700 hover:border-slate-500 rounded-xl text-lg font-bold text-white transition-colors"
-              >
-                Auditoría CTI
-              </a>
-            </div>
-          </motion.div>
+          <SmoothScrollLink href="#context" className="inline-flex items-center justify-center w-14 h-14 rounded-full border border-white/20 hover:bg-white/10 transition-colors">
+            <ChevronRight className="w-6 h-6 rotate-90 text-slate-400" />
+          </SmoothScrollLink>
         </motion.div>
       </section>
 
-      {/* CyberGlobe 3D OSINT Visualizer */}
-      <section id="mapeo" className="relative py-32 px-4 z-10 border-t border-slate-800 bg-slate-950/50 backdrop-blur-3xl">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1 }}
-            className="grid lg:grid-cols-2 gap-12 items-center"
-          >
-            <div className="mb-16 lg:mb-0">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-purple-900/30 border border-purple-500/30 rounded text-purple-400 text-xs font-mono mb-6 uppercase tracking-widest">
-                <Globe className="w-3 h-3" /> Red Global OSINT LEO
-              </div>
-              <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
-                Mapeo Perimetral Vía Satélite
-              </h2>
-              <p className="text-xl text-slate-400 max-w-xl leading-relaxed mb-8">
-                Nuestros nodos virtuales (satélites de escaneo pasivo) triangulan la huella digital de tu infraestructura a nivel global.
+      {/* Context & Storytelling */}
+      <section id="context" className="relative py-32 px-4 z-20 bg-[#020617]">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex items-center gap-4 mb-12">
+            <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-purple-500/50" />
+            <span className="font-mono text-xs tracking-[0.2em] text-purple-400">01. EL CONTEXTO</span>
+            <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-purple-500/50" />
+          </div>
+          
+          <h2 className="text-4xl md:text-5xl font-bold mb-10 tracking-tight leading-tight">
+            Las instituciones están ciegas ante su propia sombra digital.
+          </h2>
+          
+          <div className="space-y-8 text-xl text-slate-400 font-light leading-relaxed">
+            <p>
+              Hoy en día, las administraciones públicas y corporaciones estratégicas invierten millones en fortificar sus redes internas, pero desconocen qué partes de su infraestructura están <strong className="text-white font-medium">expuestas a internet por error</strong> (servidores olvidados, DNS huérfanos, credenciales filtradas).
+            </p>
+            <p>
+              El problema es que <strong className="text-white font-medium">auditar activamente estos perímetros roza la ilegalidad</strong> si no hay autorizaciones firmadas. Los atacantes no tienen esa restricción: usan OSINT (Inteligencia de Fuentes Abiertas) para cartografiar el objetivo sin tocarlo.
+            </p>
+            <div className="p-8 border-l-4 border-purple-500 bg-white/5 rounded-r-2xl">
+              <p className="text-white italic">
+                "Civil Sentry nace para democratizar las capacidades de inteligencia de estado. Utilizamos las mismas técnicas OSINT no intrusivas que los adversarios, pero para defender."
               </p>
-              
-              <ul className="space-y-4 text-slate-300 font-mono text-sm">
-                <li className="flex items-center gap-3"><Check className="w-5 h-5 text-purple-500"/> Escaneo BGP y ASN Global</li>
-                <li className="flex items-center gap-3"><Check className="w-5 h-5 text-purple-500"/> Fingerprinting de Banners TLS</li>
-                <li className="flex items-center gap-3"><Check className="w-5 h-5 text-purple-500"/> Resolución Inversa Constante</li>
-              </ul>
             </div>
-
-            <div className="relative">
-              <CyberGlobe />
-            </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* OSINT Técnicas & Ópticas */}
-      <section id="opticas" className="relative py-32 px-4 z-10">
+      {/* The MVP Explained (Simulators) */}
+      <section id="mvp" className="relative py-32 px-4 z-20 border-t border-white/5 bg-slate-950/50">
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none" />
+        
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-900/30 border border-blue-500/30 rounded text-blue-400 text-xs font-mono mb-6 uppercase tracking-widest">
-              <Shield className="w-3 h-3" /> OSINT Basado en Evidencias
-            </div>
-            <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
-              De la Observación a la Certeza
-            </h2>
-            <p className="text-xl text-slate-400 max-w-4xl mx-auto leading-relaxed">
-              Civil Sentry proporciona herramientas claras para los analistas de seguridad, automatizando la recolección de inteligencia sin cruzar la línea de la legalidad hacia ataques activos no autorizados.
-            </p>
+          <div className="flex items-center gap-4 mb-16">
+            <span className="font-mono text-xs tracking-[0.2em] text-blue-400">02. EL PRODUCTO MÍNIMO VIABLE (MVP)</span>
+            <div className="h-[1px] flex-1 bg-gradient-to-r from-blue-500/50 to-transparent" />
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 mb-16">
-            {/* Óptica Analista OSINT */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="bg-slate-900 border border-slate-800 p-10 rounded-3xl"
-            >
-              <div className="flex items-center gap-4 mb-8">
-                <div className="p-4 bg-purple-500/20 rounded-full">
-                  <Globe className="w-8 h-8 text-purple-400" />
-                </div>
-                <h3 className="text-3xl font-bold">Óptica: Analista CTI</h3>
-              </div>
-              <ul className="space-y-6 text-slate-300">
-                <li className="flex gap-4">
-                  <Check className="w-6 h-6 text-purple-500 shrink-0" />
-                  <span><strong>Recolectores Pasivos:</strong> Resolución de DNS en tiempo real, búsqueda WHOIS inversa y escaneo pasivo de banners TLS.</span>
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <h2 className="text-4xl font-bold mb-6 tracking-tight">¿Qué hace la V1 hoy?</h2>
+              <p className="text-lg text-slate-400 mb-8 leading-relaxed">
+                El MVP de Civil Sentry es un <strong>motor automatizado de cartografía perimetral</strong>. A través de un simple dominio objetivo, la plataforma orquesta recolectores pasivos que peinan internet sin enviar un solo paquete directo al servidor.
+              </p>
+              <ul className="space-y-6">
+                <li className="flex gap-4 items-start">
+                  <div className="mt-1 p-2 rounded bg-blue-500/20"><Network className="w-5 h-5 text-blue-400" /></div>
+                  <div>
+                    <strong className="block text-white mb-1">1. Descubrimiento Pasivo</strong>
+                    <span className="text-slate-400 text-sm">Rastreamos certificados TLS públicos y bases de datos WHOIS para encontrar subdominios y activos olvidados.</span>
+                  </div>
                 </li>
-                <li className="flex gap-4">
-                  <Check className="w-6 h-6 text-purple-500 shrink-0" />
-                  <span><strong>Pipeline de Evidencias:</strong> Todos los datos en crudo se guardan con hash SHA-256 en el instante de captura para auditorías de cumplimiento.</span>
+                <li className="flex gap-4 items-start">
+                  <div className="mt-1 p-2 rounded bg-purple-500/20"><Database className="w-5 h-5 text-purple-400" /></div>
+                  <div>
+                    <strong className="block text-white mb-1">2. Ingesta Criptográfica</strong>
+                    <span className="text-slate-400 text-sm">Cada activo encontrado se hashea. Construimos una cadena de custodia inmutable de cada hallazgo.</span>
+                  </div>
                 </li>
-                <li className="flex gap-4">
-                  <Check className="w-6 h-6 text-purple-500 shrink-0" />
-                  <span><strong>Generación de Nivel de Confianza:</strong> Diferenciación tipificada entre HALLAZGO SOPORTADO, VERIFICADO, o SIMPLEMENTE INFERIDO.</span>
+                <li className="flex gap-4 items-start">
+                  <div className="mt-1 p-2 rounded bg-emerald-500/20"><Activity className="w-5 h-5 text-emerald-400" /></div>
+                  <div>
+                    <strong className="block text-white mb-1">3. IA 'Zero Hallucinations'</strong>
+                    <span className="text-slate-400 text-sm">Nuestro agente LLM evalúa los metadatos, pero el sistema bloquea cualquier conclusión que no esté anclada a una evidencia real (Grounding).</span>
+                  </div>
                 </li>
               </ul>
-            </motion.div>
+            </div>
 
-            {/* Óptica CISO */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="bg-slate-900 border border-slate-800 p-10 rounded-3xl relative overflow-hidden"
+            {/* Bento Box Simulators */}
+            <div className="grid gap-4">
+              <div className="bg-black/50 border border-white/10 rounded-2xl p-6 backdrop-blur-md">
+                <h3 className="text-sm font-mono text-slate-400 mb-4 flex items-center gap-2"><Globe className="w-4 h-4"/> SIMULADOR: RECOLECTOR OSINT</h3>
+                <LogStreamSimulator />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-black/50 border border-white/10 rounded-2xl p-6 backdrop-blur-md">
+                  <h3 className="text-sm font-mono text-slate-400 mb-4 flex items-center gap-2"><Lock className="w-4 h-4"/> EVIDENCIAS</h3>
+                  <div className="text-3xl font-light text-white mb-1">2,041</div>
+                  <div className="text-xs text-emerald-400 font-mono">+124 en última hora</div>
+                </div>
+                <div className="bg-black/50 border border-white/10 rounded-2xl p-6 backdrop-blur-md">
+                   <h3 className="text-sm font-mono text-slate-400 mb-4 flex items-center gap-2"><Fingerprint className="w-4 h-4"/> IA PIPELINE</h3>
+                   <AIPipelineSimulator />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pitch CTA */}
+      <section id="engine" className="relative py-32 px-4 z-20 bg-[#020617] border-t border-white/10">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="w-24 h-24 mx-auto mb-8 bg-gradient-to-br from-purple-500 to-blue-500 rounded-3xl flex items-center justify-center shadow-[0_0_50px_rgba(168,85,247,0.3)] rotate-3">
+             <Shield className="w-12 h-12 text-white -rotate-3" />
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
+            Invierte en Defensa Soberana.
+          </h2>
+          <p className="text-xl text-slate-400 mb-12 leading-relaxed font-light">
+            Civil Sentry está listo para despliegues piloto en el sector gubernamental. CTI avanzado sin riesgos legales, gestionado por Inteligencia Artificial estructurada.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <button 
+              onClick={onEnterApp}
+              className="px-10 py-5 bg-white text-black rounded-sm text-sm font-bold tracking-widest uppercase hover:bg-purple-500 hover:text-white transition-all w-full sm:w-auto"
             >
-              <div className="absolute top-0 right-0 p-8 opacity-10">
-                <Lock className="w-64 h-64 text-blue-500" />
-              </div>
-              <div className="flex items-center gap-4 mb-8 relative z-10">
-                <div className="p-4 bg-blue-500/20 rounded-full">
-                  <Shield className="w-8 h-8 text-blue-400" />
-                </div>
-                <h3 className="text-3xl font-bold text-white">Óptica: CISO y Cumplimiento</h3>
-              </div>
-              <ul className="space-y-6 text-slate-300 relative z-10">
-                <li className="flex gap-4">
-                  <Check className="w-6 h-6 text-blue-500 shrink-0" />
-                  <span><strong>Barreras de Autorización Estrictas:</strong> El sistema rechaza iniciar escaneos activos sin un objeto `AuthorizationGrant` firmado criptográficamente.</span>
-                </li>
-                <li className="flex gap-4">
-                  <Check className="w-6 h-6 text-blue-500 shrink-0" />
-                  <span><strong>Exportación STIX-Ready:</strong> Genera informes de inteligencia de amenazas estructurados listos para ser consumidos por tu SIEM corporativo.</span>
-                </li>
-                <li className="flex gap-4">
-                  <Check className="w-6 h-6 text-blue-500 shrink-0" />
-                  <span><strong>Zero Hallucinaciones IA:</strong> Garantía de que ningún agente autónomo inyecte hallazgos inventados en tus informes de exposición.</span>
-                </li>
-              </ul>
-            </motion.div>
+              PROBAR CONSOLA TÁCTICA
+            </button>
+            <a
+              href="mailto:inversores@civil-sentry.com"
+              className="px-10 py-5 bg-transparent border border-slate-700 hover:border-slate-400 text-white rounded-sm text-sm font-bold tracking-widest uppercase transition-all w-full sm:w-auto"
+            >
+              SOLICITAR DUE DILIGENCE
+            </a>
           </div>
         </div>
       </section>
-
-      {/* Differentiation & Competitors */}
-      <section id="madurez" className="relative py-32 px-4 z-10">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
-              Madurez CTI
-            </h2>
-            <p className="text-xl text-slate-400 max-w-4xl mx-auto leading-relaxed">
-              Herramientas como MISP o OpenCTI asumen inteligencia compartida sobre actores de amenazas. Civil Sentry mapea exclusivamente tu propia exposición externa respaldada por evidencias.
-            </p>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl mb-32"
-          >
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="bg-slate-950/50 border-b border-slate-800 text-sm font-mono tracking-widest text-slate-400">
-                    <th className="px-8 py-6 uppercase">Sistema</th>
-                    <th className="px-8 py-6 text-center uppercase">Cadena Evidencias</th>
-                    <th className="px-8 py-6 text-center uppercase">IA Basada en Evidencia</th>
-                    <th className="px-8 py-6 text-center uppercase">Barreras Autorización</th>
-                    <th className="px-8 py-6 text-right uppercase">Enfoque Principal</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-800">
-                  {competitors.map((comp) => (
-                    <tr
-                      key={comp.name}
-                      className={`transition-colors hover:bg-slate-800/50 ${comp.highlight ? 'bg-purple-900/10' : ''}`}
-                    >
-                      <td className="px-8 py-6 font-medium text-lg flex items-center gap-3">
-                        {comp.name}
-                        {comp.highlight && (
-                          <span className="px-2 py-1 bg-purple-500/20 text-purple-400 text-xs rounded border border-purple-500/30 font-mono">NEXT-GEN</span>
-                        )}
-                      </td>
-                      <td className="px-8 py-6 text-center">
-                        {comp.evidence ? <Check className="w-6 h-6 text-purple-400 mx-auto" /> : <span className="text-slate-600 font-mono">NO</span>}
-                      </td>
-                      <td className="px-8 py-6 text-center">
-                        {comp.aiGrounded ? <Check className="w-6 h-6 text-purple-400 mx-auto" /> : <span className="text-slate-600 font-mono">NO</span>}
-                      </td>
-                      <td className="px-8 py-6 text-center">
-                        {comp.authGates ? <Check className="w-6 h-6 text-purple-400 mx-auto" /> : <span className="text-slate-600 font-mono">NO</span>}
-                      </td>
-                      <td className="px-8 py-6 text-right font-mono text-lg">
-                        <span className={comp.highlight ? 'text-purple-400 font-bold' : 'text-slate-500'}>{comp.focus}</span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {features.map((feature, i) => (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-slate-900/50 backdrop-blur-md border border-slate-800 p-10 rounded-3xl hover:border-slate-700 transition-colors"
-              >
-                <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-br ${feature.color} mb-6 shadow-lg`}>
-                  <feature.icon className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-3xl font-bold mb-4 tracking-tight">{feature.title}</h3>
-                <p className="text-slate-400 text-lg leading-relaxed">{feature.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Final Pitch CTA */}
-      <section id="pitch" className="relative py-32 px-4 z-10 border-t border-slate-800 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-purple-900/20 via-slate-950 to-slate-950">
-        <div className="max-w-5xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="bg-slate-900 border border-purple-500/30 rounded-[3rem] p-16 relative overflow-hidden"
-          >
-            {/* Tech grid overlay */}
-            <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(168, 85, 247, 0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(168, 85, 247, 0.5) 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
-            
-            <Shield className="w-20 h-20 mx-auto mb-8 text-purple-400 relative z-10" />
-            <h2 className="text-5xl font-extrabold mb-6 relative z-10 tracking-tight">
-              Eleva tu Seguridad con Inteligencia
-            </h2>
-            <p className="text-xl text-slate-300 mb-12 max-w-2xl mx-auto relative z-10 leading-relaxed">
-              Buscamos administraciones públicas interesadas en programas piloto gratuitos de 30 días para auditar su exposición perimetral.
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 relative z-10">
-              <motion.button
-                onClick={onEnterApp}
-                className="px-10 py-5 bg-white text-slate-950 rounded-xl text-lg font-bold shadow-2xl hover:shadow-white/20 transition-all flex items-center gap-2"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Lanzar Análisis Sintético
-                <ArrowRight className="w-5 h-5" />
-              </motion.button>
-              <a
-                href="mailto:inversores@civil-sentry.com"
-                className="px-10 py-5 bg-transparent border-2 border-slate-700 rounded-xl text-lg font-bold hover:bg-slate-800 hover:border-slate-600 transition-all text-white"
-              >
-                Contactar Ventas
-              </a>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="relative border-t border-slate-900 py-12 px-4 z-10 bg-slate-950">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-slate-600 font-mono">
-          <div>
-            © 2026 Civil Sentry. Todos los derechos reservados.
-          </div>
-          <div className="flex items-center gap-8">
-            <a href="https://github.com/abrahamhl/civil-sentry" className="hover:text-purple-400 transition-colors">Repositorio Core</a>
-            <a href="#" className="hover:text-purple-400 transition-colors">Metodología CTI</a>
-          </div>
-        </div>
+      
+      <footer className="py-8 text-center text-xs font-mono text-slate-600 bg-black">
+        © 2026 CIVIL SENTRY (OSINT PLATFORM). ENCRYPTED CHANNEL.
       </footer>
     </div>
   );
