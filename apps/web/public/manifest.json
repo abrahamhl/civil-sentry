@@ -1,0 +1,9 @@
+{
+  "name": "Civic Relay Demo",
+  "short_name": "Civic Relay",
+  "description": "Demo ficticia de comunicacion en crisis. No es un servicio de emergencias.",
+  "start_url": "/civic-relay/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#667eea"
+}
