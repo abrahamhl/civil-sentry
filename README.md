@@ -68,9 +68,7 @@ way rather than rushed.
 ## How this was built
 
 Human-decided scope, AI-assisted implementation, verified by tests that
-either pass or don't — the same discipline documented in
-[`civic-relay`'s interview case study](https://github.com/abrahamhl/civic-relay/blob/master/docs/WORKWIZE_CASE_STUDY.md)
-for a different domain. `CURRENT_TRUTH.md` is the living record of what
+either pass or don't — the same discipline applied in [`civic-relay`](https://github.com/abrahamhl/civic-relay), a different domain. `CURRENT_TRUTH.md` is the living record of what
 that verification actually covers here.
 
 ## Documentation
@@ -79,7 +77,7 @@ that verification actually covers here.
 - [`THREAT_MODEL.md`](THREAT_MODEL.md) — STRIDE + MITRE ATT&CK/ATLAS applied to this system.
 - [`GAP_MATRIX.md`](GAP_MATRIX.md) — novel vs. commodity vs. duplicative, classified honestly.
 - [`PRIOR_ART.md`](PRIOR_ART.md) — the research this was built on top of, cited.
-- [`RECRUITER_EVIDENCE_MATRIX.md`](RECRUITER_EVIDENCE_MATRIX.md) — claims mapped to exact code and tests.
+- [`EVIDENCE_MATRIX.md`](EVIDENCE_MATRIX.md) — claims mapped to exact code and tests.
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — the pipeline in detail.
 - [`docs/adr/`](docs/adr/) — architecture decision records.
 

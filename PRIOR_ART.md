@@ -12,7 +12,7 @@ integration than actually happened.
 | **NIST CSF 2.0** (Feb 2024) | 6 functions (Govern, Identify, Protect, Detect, Respond, Recover), 22 categories, 106 subcategories. Govern is new in 2.0. | Used as the outcome taxonomy for `Finding.category` — referenced, not reimplemented. No CSF conformance is claimed. |
 | **ENISA Threat Landscape 2025** (published Oct 1, 2025; 4,875 incidents analyzed, Jul 2024–Jun 2025) | Public administration is the most-targeted EU sector (38.2% of incidents); converging cybercrime/espionage/hacktivism; AI-assisted attacks rising. | Grounds the "why this matters" framing in `README.md` with a cited, dated statistic. |
 | **MITRE ATT&CK** vs **MITRE ATLAS** | ATT&CK: adversary behavior against conventional IT. ATLAS: AI/ML-specific techniques (prompt injection, data poisoning, model extraction), updated faster than ATT&CK, no ATT&CK equivalent. | `THREAT_MODEL.md` uses ATT&CK-style STRIDE for infrastructure and ATLAS explicitly for the AI-Analyst-Adapter surface — complementary, not interchangeable. |
-| **OASIS STIX 2.1 / TAXII 2.1** | Approved as OASIS Standards 10 June 2021. Mandatory-to-implement serialization is UTF-8 JSON. Production implementers include CISA, EclecticIQ, SEKOIA, Trend Micro. | Target export format for `Finding`/`Evidence`. **Not implemented in this PR** — see `CURRENT_TRUTH.md`. |
+| **OASIS STIX 2.1 / TAXII 2.1** | Approved as OASIS Standards 10 June 2021. Mandatory-to-implement serialization is UTF-8 JSON. Production implementers include CISA, EclecticIQ, SEKOIA, Trend Micro. | Target export format for `Finding`/`Evidence`. **Not implemented in this release** — see `CURRENT_TRUTH.md`. |
 | **OWASP Amass / Open Asset Model** | OWASP-hosted framework for external asset discovery + attack-surface mapping, with its own "Open Asset Model." | Direct prior art for `packages/schema`'s `Asset` type — same graph-of-typed-nodes pattern, not reimplemented wholesale. |
 | **SpiderFoot** | Automated OSINT reconnaissance with a web UI, positioned for attack-surface mapping and threat intelligence. | Commodity capability for passive OSINT collection. Differentiation claimed is the Evidence/Confidence/Authorization layer, not collection breadth or speed. |
 | **theHarvester** | E-mail, subdomain, name harvester from public sources. | Same category — commodity passive collection, cited so GAP_MATRIX's "COMMODITY" classification is defensible rather than asserted. |
@@ -58,8 +58,8 @@ methodology showcase.
 Inspected directly. Real and finished: a single-file PowerShell forensic
 scanner for the Shai-Hulud/ChainDrop npm worm family, with
 `tests/Run-Tests.ps1` against synthetic fixtures, working GitHub Actions
-CI, and its own `RECRUITER_EVIDENCE.md` mapping claims to exact code
-lines — the direct template `RECRUITER_EVIDENCE_MATRIX.md` in this
+CI, and its own `EVIDENCE.md` mapping claims to exact code
+lines — the direct template `EVIDENCE_MATRIX.md` in this
 project follows. Not integrated as code (different language, different
 problem) but cited as evidence that shipping a small, honestly-scoped,
 tested security tool is a demonstrated pattern for this author.

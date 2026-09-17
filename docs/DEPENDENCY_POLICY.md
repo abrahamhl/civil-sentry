@@ -8,7 +8,7 @@ root `package.json` (with a full integrity hash) and Corepack enforces it.
 
 ## Current dependency count (checked, not asserted)
 
-As of this PR: **zero runtime dependencies** across all three packages
+As of this release: **zero runtime dependencies** across all three packages
 (`schema`, `core`, `collectors`) and the demo fixture. Two dev dependencies
 at the workspace root: `typescript`, `@types/node`. Run `pnpm list -r
 --prod` to verify this yourself — that command, not this sentence, is the

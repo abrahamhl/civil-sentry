@@ -4,7 +4,7 @@ Classification of every capability the mission brief proposes, against the
 prior art documented in `PRIOR_ART.md`. Five labels only, per the brief's
 own taxonomy: **NOVEL**, **USEFUL_INTEGRATION**, **COMMODITY**,
 **DUPLICATIVE**, **UNSUPPORTED**. "Novel" is claimed only relative to the
-specific tools this PR actually researched (OWASP Amass, SpiderFoot,
+specific tools this release actually researched (OWASP Amass, SpiderFoot,
 theHarvester, MISP, OpenCTI) — not as a claim about the entire global CTI/
 bug-bounty-platform market, which was not exhaustively audited.
 
@@ -18,7 +18,7 @@ bug-bounty-platform market, which was not exhaustively audited.
 | 6 | Geospatial organization view | **COMMODITY** | Rendering a map of asset locations is a solved UI problem. No novelty claimed; the value is in what data feeds the map, which is why `Organization.location` is already in the schema even though no map UI exists yet. |
 | 7 | Temporal/change detection (retest & proof) | **USEFUL_INTEGRATION** | `argus`'s unshipped design already specifies `compareRuns(runA, runB): Proof[]` for exactly this — reused as a design pattern when built, not re-derived from scratch. |
 | 8 | Evidence bundle (exportable run artifact) | **COMMODITY** | A JSON bundle-per-run is standard practice, including in `argus`'s own `.argusbundle` design. |
-| 9 | STIX 2.1 export | **USEFUL_INTEGRATION** | STIX/TAXII is an OASIS standard with production adopters (CISA, EclecticIQ, SEKOIA). Mapping our model onto STIX Domain Objects is integration work, not invention — and is **UNSUPPORTED in this PR** (see `CURRENT_TRUTH.md`) because the internal schema needs to stabilize first. |
+| 9 | STIX 2.1 export | **USEFUL_INTEGRATION** | STIX/TAXII is an OASIS standard with production adopters (CISA, EclecticIQ, SEKOIA). Mapping our model onto STIX Domain Objects is integration work, not invention — and is **UNSUPPORTED in this release** (see `CURRENT_TRUTH.md`) because the internal schema needs to stabilize first. |
 | 10 | Authorization gate blocking active checks without valid scope | **NOVEL**\* | None of Amass, SpiderFoot, or theHarvester enforce authorization *in the tool itself* — it's assumed to be a paperwork step outside the software. \*Caveat: bug-bounty platforms (HackerOne, Cobalt) likely enforce scope at the platform level — not audited here, so the claim is scoped to "novel among self-hosted OSS ASM tools." |
 | 11 | AI analysis that cannot emit VERIFIED without evidence | **NOVEL**\* | Same caveat structure as #10. `argus`'s five-reviewer audit explicitly flagged "AI assigning severity/verified status" as *fake sophistication to avoid* — this project's constraint operationalizes that finding at the type level rather than restating it as policy. |
 | 12 | Reproducible synthetic demonstration (fixtures, no live network) | **COMMODITY** | Standard test-engineering hygiene — `civic-relay` and `argus` both already do this for their own domains. |

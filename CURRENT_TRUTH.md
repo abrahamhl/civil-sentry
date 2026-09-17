@@ -1,17 +1,11 @@
-# CURRENT_TRUTH.md
+﻿# CURRENT_TRUTH.md
 
 **Date:** 2026-09-10
-**Author:** Abraham Haddioui (AI-assisted, Claude Sonnet 5)
+**Author:** Abraham Haddioui
 **Rule:** if it cannot be demonstrated with a command that exits 0, it is not claimed here as done.
 
-> **Repo slug note:** this repository was created as `civil-sentry`
-> (a typo — one letter off from the project's actual name, civil-sentry)
-> and is pending a rename by the owner. GitHub redirects the old slug
-> automatically once renamed, so no link in this documentation breaks
-> either way. Flagged here rather than left for a reviewer to wonder about.
-
 This document states, without qualification inflation, what exists in this
-repository at the point this PR is opened. It exists because the author's
+repository as of this release. It exists because the author's
 adjacent repository (`civic-relay`) previously shipped a `README.md` and an
 executive summary claiming a "93% institutional score" and "ENS Alto
 compliance" for a prototype whose core delivery logic was later proven
@@ -34,7 +28,7 @@ single-commit architecture skeleton by the same author, see `PRIOR_ART.md`)
 because both were authored with the same threat-modeling discipline, not
 because files were copied.
 
-## Implemented and proven in this PR
+## Implemented and proven in this release
 
 | Capability | Evidence | Command to verify |
 |---|---|---|

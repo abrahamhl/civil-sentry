@@ -32,7 +32,7 @@ requires no permission, by design.
   *operator's honesty*. Nothing stops someone from typing a scope pattern
   that doesn't match their real authorization document. Making that
   cryptographically unforgeable (e.g., requiring a counter-signed
-  document hash from a third party) is out of scope for this PR — tracked
+  document hash from a third party) is out of scope for this release — tracked
   as a future ADR if a real engagement ever needs it.
 - **Not yet enforced:** no `activeOnly` collector exists yet in this
   codebase for the gate to protect (see `CURRENT_TRUTH.md`). Building the
@@ -49,4 +49,4 @@ requires no permission, by design.
 - **Cryptographically signed grants (e.g., a third-party notary
   signature)** — deferred, not rejected: adds real value but also real
   complexity (key management, a signing authority) disproportionate to
-  this PR's scope. Revisit if/when a real authorized engagement occurs.
+  this release's scope. Revisit if/when a real authorized engagement occurs.

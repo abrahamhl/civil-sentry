@@ -39,7 +39,7 @@ Organization ──> Asset ──> Run (mode: STREET_PASSIVE | AUTHORIZED_ASSESS
   evidence constraint).
 - `packages/collectors` — deterministic, mode-tagged collection modules.
   Currently: passive DNS/MX/TXT (`dns.ts`). No `activeOnly` collector
-  exists yet in this PR — see `CURRENT_TRUTH.md`.
+  exists yet in this release — see `CURRENT_TRUTH.md`.
 - `fixtures/gelderland-synthetic` — the reproducible synthetic
   demonstration, wired as its own workspace package so it can depend on
   the real packages and run the full pipeline with a canned resolver.
