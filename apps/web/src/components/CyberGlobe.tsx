@@ -1,7 +1,6 @@
 import { useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Sphere, Line, Points, PointMaterial } from '@react-three/drei';
-import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
 
 const ParticleGlobe = () => {
@@ -38,7 +37,7 @@ const ParticleGlobe = () => {
           itemSize={3}
         />
       </bufferGeometry>
-      <PointMaterial transparent color="#a855f7" size={0.02} sizeAttenuation={true} depthWrite={false} opacity={0.6} />
+      <PointMaterial transparent color="#d8b4fe" size={0.03} sizeAttenuation={true} depthWrite={false} opacity={0.8} blending={THREE.AdditiveBlending} />
     </Points>
   );
 };
@@ -63,16 +62,21 @@ const OrbitRing = ({ radius, speed, axis, color }: any) => {
 
   return (
     <group ref={groupRef as any}>
-      <Line points={points} color={color} lineWidth={1} transparent opacity={0.3} />
+      <Line points={points} color={color} lineWidth={2} transparent opacity={0.6} />
       {/* Satellite Node */}
       <mesh position={[radius, 0, 0]}>
-        <sphereGeometry args={[0.08, 16, 16]} />
-        <meshBasicMaterial color={color} />
+        <sphereGeometry args={[0.1, 16, 16]} />
+        <meshBasicMaterial color={color} toneMapped={false} />
+      </mesh>
+      {/* Glow Halo */}
+      <mesh position={[radius, 0, 0]}>
+        <sphereGeometry args={[0.2, 16, 16]} />
+        <meshBasicMaterial color={color} transparent opacity={0.4} blending={THREE.AdditiveBlending} depthWrite={false} />
       </mesh>
       {/* Scanning Cone */}
       <mesh position={[radius - 0.2, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
-        <coneGeometry args={[0.3, 0.6, 16]} />
-        <meshBasicMaterial color={color} transparent opacity={0.15} depthWrite={false} />
+        <coneGeometry args={[0.4, 0.8, 16]} />
+        <meshBasicMaterial color={color} transparent opacity={0.2} depthWrite={false} blending={THREE.AdditiveBlending} />
       </mesh>
     </group>
   );
@@ -80,8 +84,8 @@ const OrbitRing = ({ radius, speed, axis, color }: any) => {
 
 export const CyberGlobe = () => {
   return (
-    <div className="w-full h-[600px] relative rounded-3xl overflow-hidden border border-slate-800 shadow-[0_0_100px_rgba(168,85,247,0.15)]">
-      <Canvas camera={{ position: [0, 2, 6], fov: 45 }}>
+    <div className="w-full h-full min-h-[600px] relative rounded-3xl overflow-hidden border border-white/5 shadow-[0_0_100px_rgba(168,85,247,0.1)]">
+      <Canvas camera={{ position: [0, 2, 6], fov: 45 }} gl={{ antialias: true }}>
         <color attach="background" args={['#020617']} />
         
         {/* Core Globe (Dark base) */}
@@ -93,17 +97,12 @@ export const CyberGlobe = () => {
         <ParticleGlobe />
         
         {/* Orbital Scanners */}
-        <OrbitRing radius={2.6} speed={0.5} axis="y" color="#3b82f6" />
-        <OrbitRing radius={3.0} speed={0.3} axis="x" color="#a855f7" />
-        <OrbitRing radius={2.8} speed={0.4} axis="z" color="#10b981" />
-        <OrbitRing radius={3.2} speed={-0.2} axis="y" color="#ef4444" />
+        <OrbitRing radius={2.6} speed={0.5} axis="y" color="#60a5fa" />
+        <OrbitRing radius={3.0} speed={0.3} axis="x" color="#d8b4fe" />
+        <OrbitRing radius={2.8} speed={0.4} axis="z" color="#34d399" />
+        <OrbitRing radius={3.2} speed={-0.2} axis="y" color="#f87171" />
 
-        <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.5} />
-        
-        <EffectComposer>
-          {/* @ts-ignore */}
-          <Bloom luminanceThreshold={0.2} luminanceSmoothing={0.9} height={300} intensity={1.5} />
-        </EffectComposer>
+        <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.8} />
       </Canvas>
     </div>
   );

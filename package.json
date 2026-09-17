@@ -11,10 +11,17 @@
     "demo:synthetic": "pnpm --filter @civil-sentry/demo-gelderland-synthetic run demo"
   },
   "devDependencies": {
-    "typescript": "^5.6.2",
-    "@types/node": "^22.7.4"
+    "@types/node": "^22.7.4",
+    "typescript": "^5.6.2"
   },
-  "keywords": ["cyber-situational-awareness", "osint", "cti", "asm", "evidence", "authorization"],
+  "keywords": [
+    "cyber-situational-awareness",
+    "osint",
+    "cti",
+    "asm",
+    "evidence",
+    "authorization"
+  ],
   "author": "Abraham Haddioui",
   "license": "Apache-2.0"
 }
