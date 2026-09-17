@@ -36,7 +36,11 @@ Everything below is checked by CI on every push — see the badge/run
 linked on this repository's Actions tab, and `CURRENT_TRUTH.md` for the
 line-by-line capability table with exact file paths.
 
-- 3 packages, **zero runtime dependencies** (`docs/DEPENDENCY_POLICY.md`).
+- 3 packages (`schema`, `core`, `collectors`) — the actual evidence
+  pipeline — **zero runtime dependencies** (`docs/DEPENDENCY_POLICY.md`).
+  `apps/web` (the marketing page, see below) is a separate Vite/React
+  site with its own, ordinary frontend dependency footprint — it is
+  explicitly outside that zero-dependency claim, not silently included in it.
 - An authorization gate tested against 6 explicit cases (missing grant,
   expired grant, wrong organization, out-of-scope target, valid grant,
   passive-mode no-op).
@@ -60,10 +64,18 @@ pnpm demo:synthetic
 
 ## Limitations (read before assuming more than this does)
 
-STIX 2.1 export, a geospatial UI, temporal/change detection, and any
-active-assessment collector are **not implemented yet** — see
-`CURRENT_TRUTH.md` for the exact list and why each was sequenced this
-way rather than rushed.
+STIX 2.1 export, a real geospatial organization view, temporal/change
+detection, and any active-assessment collector are **not implemented
+yet** — see `CURRENT_TRUTH.md` for the exact list and why each was
+sequenced this way rather than rushed.
+
+`apps/web` is a presentational landing page (React, Three.js, Leaflet
+for decoration), added after the initial audit pass. It does **not**
+read `Organization`/`Asset`/`Finding` data from `packages/*` — it is
+not the geospatial organization view the mission brief describes, and
+its dependencies were not run through `docs/DEPENDENCY_POLICY.md`'s
+vetting process before being added. Stated here plainly rather than
+left for a reviewer to discover.
 
 ## How this was built
 

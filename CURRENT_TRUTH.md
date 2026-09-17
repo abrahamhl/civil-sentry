@@ -40,13 +40,21 @@ because files were copied.
 | Passive DNS/MX/TXT observation — real Node `dns/promises` resolver, injectable for tests, one query pass, no active probing | `packages/collectors/src/dns.ts` + `dns.test.ts` | `pnpm --filter @civil-sentry/collectors test` |
 | Reproducible synthetic demonstration — fictional Elzendaal district, 3 fictional orgs, full pipeline incl. authorization-gate block/allow | `fixtures/gelderland-synthetic/` | `pnpm demo:synthetic` |
 | CI: install (frozen lockfile), build, test, type-check, and the synthetic demo on every push/PR | `.github/workflows/ci.yml` | GitHub Actions run linked on the PR |
+| Marketing landing page (React/Vite, decorative 3D globe + map) — presentational only | `apps/web/` | `pnpm --filter web build` |
+
+**On `apps/web`, plainly:** it was added after the audit pass above, does
+not import from `packages/schema`/`core`/`collectors`, and does not
+render real `Organization`/`Asset`/`Finding` data — it is a static
+marketing site, not a product feature. Its dependencies were not run
+through `docs/DEPENDENCY_POLICY.md`'s vetting process. Both facts are
+stated here rather than left implicit.
 
 ## Explicitly NOT implemented yet (do not claim these)
 
 | Capability requested in the mission brief | Status | Why deferred |
 |---|---|---|
 | STIX 2.1 bundle export | UNSUPPORTED | Exporting a still-changing internal schema and calling it "STIX 2.1 compliant" before the mapping is validated against the actual OASIS spec would itself be an overclaim (see `PRIOR_ART.md`) |
-| Geospatial organization view (map UI) | UNSUPPORTED | No UI package exists yet; `Organization.location` is modeled in the schema so this is additive, not a rework, when it lands |
+| Geospatial organization view (real data on a map) | UNSUPPORTED | `apps/web` has a decorative map component, but nothing renders actual `Organization`/`Asset` data on it yet — `Organization.location` is modeled in the schema so wiring it in is additive, not a rework |
 | TLS certificate transparency observation | UNSUPPORTED | Collector not yet written |
 | Temporal/change detection between runs (`compareRuns`/Proof) | UNSUPPORTED | Requires a second run to diff against; the `argus` design for this (see `PRIOR_ART.md`) is the reference to reuse when this is built |
 | `activeOnly` collectors (the thing the authorization gate actually gates) | UNSUPPORTED | The gate ships first, deliberately — see `docs/adr/ADR-001-authorization-gate.md` |

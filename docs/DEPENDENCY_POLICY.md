@@ -8,11 +8,22 @@ root `package.json` (with a full integrity hash) and Corepack enforces it.
 
 ## Current dependency count (checked, not asserted)
 
-As of this release: **zero runtime dependencies** across all three packages
-(`schema`, `core`, `collectors`) and the demo fixture. Two dev dependencies
-at the workspace root: `typescript`, `@types/node`. Run `pnpm list -r
---prod` to verify this yourself — that command, not this sentence, is the
-source of truth, and it will drift as the project grows.
+**This policy's zero-dependency bar applies to the evidence pipeline:**
+`packages/schema`, `packages/core`, `packages/collectors`, and the demo
+fixture. As of this release those have **zero runtime dependencies**.
+Two dev dependencies at the workspace root: `typescript`, `@types/node`.
+Run `pnpm --filter @civil-sentry/schema --filter @civil-sentry/core
+--filter @civil-sentry/collectors list --prod` to verify this yourself
+— that command, not this sentence, is the source of truth.
+
+`apps/web` (a marketing landing page, not part of the audited pipeline)
+carries an ordinary React/Vite frontend stack — React, Three.js,
+Leaflet, Framer Motion, Tailwind — added without going through the
+vetting process below. That is a real gap against this policy, noted
+here rather than hidden: this document's own rule ("any PR adding a
+dependency without walking through this list is rejected on review")
+was not followed for `apps/web`. Retroactively vetting it is a
+follow-up, not yet done.
 
 This is a deliberate outcome of the schema/core boundary: schema is pure
 TypeScript types plus a handful of small validators (no reason to need a
